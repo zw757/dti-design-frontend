@@ -1,119 +1,90 @@
 # DTI Design Frontend
 
-An Agent Skill for designers making focused frontend changes in an existing product repository. It helps an AI coding agent find the right implementation, follow the product's design system, keep the change scoped, verify the result, and prepare it for human review.
+An Agent Skill that helps designers make focused frontend changes in an existing product.
 
-## What it helps with
+It guides the AI to:
 
-- Translating a Figma design or visual feedback into frontend code
-- Reusing existing components, tokens, variants, and product patterns
-- Making contained layout, typography, responsive, and interaction changes
-- Running the repository's existing checks and preview workflow
-- Flagging work that may need a TPM or engineer before it expands in scope
+- Find the right code
+- Reuse the product's components and design tokens
+- Keep changes small and focused
+- Run the product's existing checks
+- Prepare the result for human review
 
-This skill is not intended for backend work, authentication changes, data-model changes, or broad architecture work.
+Use it for layout, typography, responsive behavior, component states, and small interactions. It is not intended for backend or major architecture changes.
 
-## Install in Codex
+## Install
 
-The easiest option is to ask Codex to install it from this repository:
+### Codex
+
+Ask Codex to install the skill:
 
 ```text
-$skill-installer Install the skill from https://github.com/zw757/dti-design-frontend
+$skill-installer Install https://github.com/zw757/dti-design-frontend
 ```
 
-Codex detects installed skills automatically. Restart Codex if it does not appear.
-
-For a manual user-level installation, clone the repository into your skills folder:
-
-```bash
-mkdir -p ~/.agents/skills
-git clone https://github.com/zw757/dti-design-frontend ~/.agents/skills/dti-design-frontend
-```
-
-To make the skill available only within one product repository, place it at:
+For one product only, place the skill at:
 
 ```text
 <product-repository>/.agents/skills/dti-design-frontend/
 ```
 
-## Install in Claude Code
+Restart Codex if the skill does not appear.
 
-For a personal installation available across your Claude Code projects:
+### Claude Code
+
+Install it for all your local projects:
 
 ```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/zw757/dti-design-frontend ~/.claude/skills/dti-design-frontend
 ```
 
-To share the skill with everyone working in one product repository, copy its contents into the repository and commit them at:
+For one product only, place the skill at:
 
 ```text
 <product-repository>/.claude/skills/dti-design-frontend/
 ```
 
-Claude Code can select the skill automatically when a request matches its description. You can also invoke it directly:
+Claude Cowork and cloud sessions do not read `~/.claude/skills/`. Enable the skill in your Claude account or add it to the product repository instead.
+
+## Use it
+
+Start your prompt with `$dti-design-frontend` in Codex or `/dti-design-frontend` in Claude Code.
+
+Then describe the change:
 
 ```text
-/dti-design-frontend Implement the linked Figma design using the existing design system.
+Implement this design: <Figma link or screenshot>
+
+Change: Update the account settings header and buttons.
+States and sizes: Default, loading, error, desktop, and mobile.
+Do not change: API behavior.
+Use: Existing design-system components and tokens.
 ```
 
-Claude Cowork and Claude cloud sessions do not read personal skills from `~/.claude/skills/`. For those environments, enable the skill for your Claude account or commit it as a project skill when supported by the session.
+The AI may also select the skill automatically when your request matches it.
 
-Claude uses `SKILL.md` and the referenced supporting files. `agents/openai.yaml` contains optional OpenAI/Codex display metadata and is not required by Claude.
+## Set up a product
 
-See Anthropic's [official Claude Code skills documentation](https://code.claude.com/docs/en/skills) for current installation scopes and invocation behavior.
+A product can store its commands, design-system paths, and working conventions in `docs/dti-design-frontend.md`.
 
-## Use the skill
-
-Mention the skill explicitly in your Codex prompt:
+Ask the AI:
 
 ```text
-$dti-design-frontend
-
-Implement the linked Figma design in this repository.
-
-Change: Update the account settings header and action buttons.
-Design reference: <Figma frame URL or screenshot>
-States: Default, loading, and error.
-Screen sizes: Desktop and mobile.
-Constraints: Reuse the existing design system. Do not change API behavior.
-Verification: Run the relevant checks and preview the affected states.
+Use the DTI Design Frontend skill to create docs/dti-design-frontend.md from the included product profile template.
 ```
 
-You can also describe a matching frontend task normally. Codex may select the skill automatically based on its description.
+Template: [`references/product-profile-template.md`](references/product-profile-template.md)
 
-Include these details when they matter:
+## What the designer owns
 
-- The exact UI change
-- A Figma frame, screenshot, or acceptance criteria
-- Relevant states and screen sizes
-- What should not change
-- Any known product or design-system constraints
+- Review the visual result and the diff
+- Decide when to involve a TPM or engineer
+- Explicitly approve any commit, push, pull request, merge, or deployment
 
-## Set up a new product
+The AI can flag risks and suggest questions, but it will not contact teammates or ship changes unless asked.
 
-Each product can document its local commands, design-system paths, patterns, and ownership boundaries in `docs/dti-design-frontend.md`.
+## Learn more
 
-Ask Codex:
-
-```text
-$dti-design-frontend Prepare this product repository to use the skill. Create docs/dti-design-frontend.md using the included product profile template.
-```
-
-The template is available at [`references/product-profile-template.md`](references/product-profile-template.md).
-
-## Human responsibilities
-
-- The designer reviews the diff and decides whether the implementation is visually correct.
-- The designer decides when to involve a TPM or engineer.
-- The AI agent can identify risks and suggest a question to raise, but it does not contact teammates unless explicitly asked and authorized.
-- The AI agent does not commit, push, open a pull request, merge, or deploy unless explicitly asked.
-
-## Repository contents
-
-```text
-SKILL.md                                  Skill instructions
-agents/openai.yaml                        Optional OpenAI/Codex display metadata
-references/product-profile-template.md    Optional per-product setup template
-```
-
-For the underlying skill format and supported installation locations, see the [official OpenAI skill documentation](https://developers.openai.com/codex/skills).
+- [OpenAI skill documentation](https://developers.openai.com/codex/skills)
+- [Claude Code skill documentation](https://code.claude.com/docs/en/skills)
