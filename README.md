@@ -1,6 +1,6 @@
 # DTI Design Frontend
 
-A Codex skill for designers making focused frontend changes in an existing product repository. It helps Codex find the right implementation, follow the product's design system, keep the change scoped, verify the result, and prepare it for human review.
+An Agent Skill for designers making focused frontend changes in an existing product repository. It helps an AI coding agent find the right implementation, follow the product's design system, keep the change scoped, verify the result, and prepare it for human review.
 
 ## What it helps with
 
@@ -34,6 +34,33 @@ To make the skill available only within one product repository, place it at:
 ```text
 <product-repository>/.agents/skills/dti-design-frontend/
 ```
+
+## Install in Claude Code
+
+For a personal installation available across your Claude Code projects:
+
+```bash
+mkdir -p ~/.claude/skills
+git clone https://github.com/zw757/dti-design-frontend ~/.claude/skills/dti-design-frontend
+```
+
+To share the skill with everyone working in one product repository, copy its contents into the repository and commit them at:
+
+```text
+<product-repository>/.claude/skills/dti-design-frontend/
+```
+
+Claude Code can select the skill automatically when a request matches its description. You can also invoke it directly:
+
+```text
+/dti-design-frontend Implement the linked Figma design using the existing design system.
+```
+
+Claude Cowork and Claude cloud sessions do not read personal skills from `~/.claude/skills/`. For those environments, enable the skill for your Claude account or commit it as a project skill when supported by the session.
+
+Claude uses `SKILL.md` and the referenced supporting files. `agents/openai.yaml` contains optional OpenAI/Codex display metadata and is not required by Claude.
+
+See Anthropic's [official Claude Code skills documentation](https://code.claude.com/docs/en/skills) for current installation scopes and invocation behavior.
 
 ## Use the skill
 
@@ -78,14 +105,14 @@ The template is available at [`references/product-profile-template.md`](referenc
 
 - The designer reviews the diff and decides whether the implementation is visually correct.
 - The designer decides when to involve a TPM or engineer.
-- Codex can identify risks and suggest a question to raise, but it does not contact teammates unless explicitly asked and authorized.
-- Codex does not commit, push, open a pull request, merge, or deploy unless explicitly asked.
+- The AI agent can identify risks and suggest a question to raise, but it does not contact teammates unless explicitly asked and authorized.
+- The AI agent does not commit, push, open a pull request, merge, or deploy unless explicitly asked.
 
 ## Repository contents
 
 ```text
 SKILL.md                                  Skill instructions
-agents/openai.yaml                        Codex display metadata
+agents/openai.yaml                        Optional OpenAI/Codex display metadata
 references/product-profile-template.md    Optional per-product setup template
 ```
 
