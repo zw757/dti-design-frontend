@@ -1,0 +1,4 @@
+interface:
+  display_name: "DTI Design Frontend"
+  short_description: "Implement focused UI changes safely"
+  default_prompt: "Use $dti-design-frontend to implement this design as a focused frontend change."
